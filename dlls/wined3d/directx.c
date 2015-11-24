@@ -3976,7 +3976,7 @@ HRESULT CDECL wined3d_enum_adapter_modes(const struct wined3d *wined3d, UINT ada
     mode->height = m.dmPelsHeight;
     mode->refresh_rate = DEFAULT_REFRESH_RATE;
     if (m.dmFields & DM_DISPLAYFREQUENCY)
-        mode->refresh_rate = m.dmDisplayFrequency;
+        mode->refresh_rate = 60;
 
     if (format_id == WINED3DFMT_UNKNOWN)
         mode->format_id = pixelformat_for_depth(m.dmBitsPerPel);
