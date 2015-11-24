@@ -609,6 +609,8 @@ void draw_primitive(struct wined3d_device *device, UINT start_idx, UINT index_co
     UINT idx_size = 0;
     unsigned int i;
 
+    return;
+
     if (!index_count) return;
 
     context = context_acquire(device, wined3d_rendertarget_view_get_surface(device->fb.render_targets[0]));
