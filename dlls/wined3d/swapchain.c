@@ -538,7 +538,7 @@ static void swapchain_gl_present(struct wined3d_swapchain *swapchain, const RECT
     }
 
     if (swapchain->num_contexts > 1)
-        gl_info->gl_ops.gl.p_glFinish();
+        gl_info->gl_ops.gl.p_glFlush();
 
     /* call wglSwapBuffers through the gl table to avoid confusing the Steam overlay */
     gl_info->gl_ops.wgl.p_wglSwapBuffers(context->hdc); /* TODO: cycle through the swapchain buffers */

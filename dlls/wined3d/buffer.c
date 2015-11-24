@@ -612,7 +612,7 @@ static void buffer_sync_apple(struct wined3d_buffer *This, DWORD flags, const st
         }
 
         /* Since we don't know about old draws a glFinish is needed once */
-        gl_info->gl_ops.gl.p_glFinish();
+        gl_info->gl_ops.gl.p_glFlush();
         return;
     }
     TRACE("Synchronizing buffer %p\n", This);
@@ -640,7 +640,7 @@ drop_query:
         This->query = NULL;
     }
 
-    gl_info->gl_ops.gl.p_glFinish();
+    gl_info->gl_ops.gl.p_glFlush();
     GL_EXTCALL(glBufferParameteriAPPLE(This->buffer_type_hint, GL_BUFFER_SERIALIZED_MODIFY_APPLE, GL_TRUE));
     checkGLcall("glBufferParameteriAPPLE(This->buffer_type_hint, GL_BUFFER_SERIALIZED_MODIFY_APPLE, GL_TRUE)");
     This->flags &= ~WINED3D_BUFFER_APPLESYNC;

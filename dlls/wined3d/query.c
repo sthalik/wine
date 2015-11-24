@@ -134,6 +134,7 @@ enum wined3d_event_query_result wined3d_event_query_finish(const struct wined3d_
 
     context = context_acquire(device, query->context->current_rt);
 
+#if 0
     if (gl_info->supported[ARB_SYNC])
     {
         /* Apple seems to be into arbitrary limits, and timeouts larger than
@@ -172,6 +173,9 @@ enum wined3d_event_query_result wined3d_event_query_finish(const struct wined3d_
         ERR("Event query created without GL support\n");
         ret = WINED3D_EVENT_QUERY_ERROR;
     }
+#endif
+    gl_info->gl_ops.gl.p_glFlush();
+    ret = WINED3D_EVENT_QUERY_OK;
 
     context_release(context);
     return ret;

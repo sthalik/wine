@@ -560,7 +560,7 @@ static void test_pbo_functionality(struct wined3d_gl_info *gl_info)
 
     GL_EXTCALL(glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0));
 
-    gl_info->gl_ops.gl.p_glFinish(); /* just to be sure */
+    gl_info->gl_ops.gl.p_glFlush();
 
     memset(check, 0, sizeof(check));
     gl_info->gl_ops.gl.p_glGetTexImage(GL_TEXTURE_2D, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, check);
