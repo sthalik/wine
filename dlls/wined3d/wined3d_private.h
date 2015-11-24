@@ -25,6 +25,7 @@
 #ifndef __WINE_WINED3D_PRIVATE_H
 #define __WINE_WINED3D_PRIVATE_H
 
+#define USE_WIN32_OPENGL
 #ifdef USE_WIN32_OPENGL
 #define WINE_GLAPI __stdcall
 #else
