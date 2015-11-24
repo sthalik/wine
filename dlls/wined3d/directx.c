@@ -4166,7 +4166,7 @@ HRESULT CDECL wined3d_enum_adapter_modes(const struct wined3d *wined3d, UINT ada
     mode->height = m.dmPelsHeight;
     mode->refresh_rate = DEFAULT_REFRESH_RATE;
     if (m.dmFields & DM_DISPLAYFREQUENCY)
-        mode->refresh_rate = m.dmDisplayFrequency;
+        mode->refresh_rate = 300;
 
     if (format_id == WINED3DFMT_UNKNOWN)
         mode->format_id = pixelformat_for_depth(m.dmBitsPerPel);
@@ -4438,9 +4438,10 @@ HRESULT CDECL wined3d_get_adapter_raster_status(const struct wined3d *wined3d, U
         return WINED3DERR_INVALIDCALL;
     if (FAILED(wined3d_get_adapter_display_mode(wined3d, adapter_idx, &mode, NULL)))
         return WINED3DERR_INVALIDCALL;
-    if (mode.refresh_rate == DEFAULT_REFRESH_RATE)
-        mode.refresh_rate = 60;
 
+    mode.refresh_rate = 300;
+
+#if 0
     freq_per_frame = freq_per_sec.QuadPart / mode.refresh_rate;
     /* Assume 20 scan lines in the vertical blank. */
     freq_per_line = freq_per_frame / (mode.height + 20);
@@ -4455,6 +4456,8 @@ HRESULT CDECL wined3d_get_adapter_raster_status(const struct wined3d *wined3d, U
 
     TRACE("Returning fake value, in_vblank %u, scan_line %u.\n",
             raster_status->in_vblank, raster_status->scan_line);
+#endif
+    raster_status->in_vblank = FALSE;
 
     return WINED3D_OK;
 }
