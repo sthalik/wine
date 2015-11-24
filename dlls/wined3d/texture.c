@@ -311,7 +311,7 @@ static HRESULT wined3d_texture_init(struct wined3d_texture *texture, const struc
 
     texture->layer_count = layer_count;
     texture->level_count = level_count;
-    texture->filter_type = (desc->usage & WINED3DUSAGE_AUTOGENMIPMAP) ? WINED3D_TEXF_LINEAR : WINED3D_TEXF_NONE;
+    texture->filter_type = (desc->usage & WINED3DUSAGE_AUTOGENMIPMAP) ? WINED3D_TEXF_POINT : WINED3D_TEXF_NONE;
     texture->lod = 0;
     texture->flags |= WINED3D_TEXTURE_POW2_MAT_IDENT | WINED3D_TEXTURE_NORMALIZED_COORDS;
     if (flags & WINED3D_TEXTURE_CREATE_GET_DC_LENIENT)
@@ -594,9 +594,9 @@ void wined3d_texture_bind(struct wined3d_texture *texture,
     gl_tex->sampler_desc.address_v = WINED3D_TADDRESS_WRAP;
     gl_tex->sampler_desc.address_w = WINED3D_TADDRESS_WRAP;
     memset(gl_tex->sampler_desc.border_color, 0, sizeof(gl_tex->sampler_desc.border_color));
-    gl_tex->sampler_desc.mag_filter = WINED3D_TEXF_LINEAR;
+    gl_tex->sampler_desc.mag_filter = WINED3D_TEXF_POINT;
     gl_tex->sampler_desc.min_filter = WINED3D_TEXF_POINT; /* GL_NEAREST_MIPMAP_LINEAR */
-    gl_tex->sampler_desc.mip_filter = WINED3D_TEXF_LINEAR; /* GL_NEAREST_MIPMAP_LINEAR */
+    gl_tex->sampler_desc.mip_filter = WINED3D_TEXF_POINT; /* GL_NEAREST_MIPMAP_LINEAR */
     gl_tex->sampler_desc.lod_bias = 0.0f;
     gl_tex->sampler_desc.min_lod = -1000.0f;
     gl_tex->sampler_desc.max_lod = 1000.0f;
@@ -612,11 +612,13 @@ void wined3d_texture_bind(struct wined3d_texture *texture,
 
     context_bind_texture(context, target, gl_tex->name);
 
+#if 0
     if (texture->resource.usage & WINED3DUSAGE_AUTOGENMIPMAP)
     {
         gl_info->gl_ops.gl.p_glTexParameteri(target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
         checkGLcall("glTexParameteri(target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE)");
     }
+#endif
 
     /* For a new texture we have to set the texture levels after binding the
      * texture. Beware that texture rectangles do not support mipmapping, but
@@ -624,10 +626,11 @@ void wined3d_texture_bind(struct wined3d_texture *texture,
      * GL_ARB_texture_non_power_of_two emulation with texture rectangles.
      * (I.e., do not care about cond_np2 here, just look for
      * GL_TEXTURE_RECTANGLE_ARB.) */
+#if 0
     if (target != GL_TEXTURE_RECTANGLE_ARB)
     {
         TRACE("Setting GL_TEXTURE_MAX_LEVEL to %u.\n", texture->level_count - 1);
-        gl_info->gl_ops.gl.p_glTexParameteri(target, GL_TEXTURE_MAX_LEVEL, texture->level_count - 1);
+        gl_info->gl_ops.gl.p_glTexParameteri(target, GL_TEXTURE_MAX_LEVEL, 0);
         checkGLcall("glTexParameteri(target, GL_TEXTURE_MAX_LEVEL, texture->level_count)");
     }
 
@@ -660,6 +663,7 @@ void wined3d_texture_bind(struct wined3d_texture *texture,
         gl_tex->sampler_desc.min_filter = WINED3D_TEXF_POINT;
         gl_tex->sampler_desc.mip_filter = WINED3D_TEXF_NONE;
     }
+#endif
 
     if (gl_info->supported[WINED3D_GL_LEGACY_CONTEXT] && gl_info->supported[ARB_DEPTH_TEXTURE])
     {
@@ -765,6 +769,7 @@ void wined3d_texture_apply_sampler_desc(struct wined3d_texture *texture,
     }
 
     state = sampler_desc->mag_filter;
+#if 0
     if (state != gl_tex->sampler_desc.mag_filter)
     {
         gl_info->gl_ops.gl.p_glTexParameteri(target, GL_TEXTURE_MAG_FILTER, wined3d_gl_mag_filter(state));
@@ -789,6 +794,7 @@ void wined3d_texture_apply_sampler_desc(struct wined3d_texture *texture,
             WARN("Anisotropic filtering not supported.\n");
         gl_tex->sampler_desc.max_anisotropy = state;
     }
+#endif
 
     if (!sampler_desc->srgb_decode != !gl_tex->sampler_desc.srgb_decode
             && (context->d3d_info->wined3d_creation_flags & WINED3D_SRGB_READ_WRITE_CONTROL)
@@ -1043,7 +1049,7 @@ HRESULT CDECL wined3d_texture_set_autogen_filter_type(struct wined3d_texture *te
         return WINED3DERR_INVALIDCALL;
     }
 
-    texture->filter_type = filter_type;
+    texture->filter_type = WINED3D_TEXF_POINT;
 
     return WINED3D_OK;
 }
