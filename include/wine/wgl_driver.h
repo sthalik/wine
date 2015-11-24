@@ -3289,7 +3289,17 @@ struct opengl_funcs
     USE_GL_FUNC(glVertex4s) \
     USE_GL_FUNC(glVertex4sv) \
     USE_GL_FUNC(glVertexPointer) \
-    USE_GL_FUNC(glViewport)
+    USE_GL_FUNC(glViewport) \
+    USE_WGL_FUNC(wglCopyContext) \
+    USE_WGL_FUNC(wglCreateContext) \
+    USE_WGL_FUNC(wglDeleteContext) \
+    USE_WGL_FUNC(wglDescribePixelFormat) \
+    USE_WGL_FUNC(wglGetPixelFormat) \
+    USE_WGL_FUNC(wglGetProcAddress) \
+    USE_WGL_FUNC(wglMakeCurrent) \
+    USE_WGL_FUNC(wglSetPixelFormat) \
+    USE_WGL_FUNC(wglShareLists) \
+    USE_WGL_FUNC(wglSwapBuffers)
 
 extern struct opengl_funcs * CDECL __wine_get_wgl_driver( HDC hdc, UINT version );
 extern BOOL CDECL __wine_set_pixel_format( HWND hwnd, int format );

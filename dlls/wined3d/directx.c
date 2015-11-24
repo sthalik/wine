@@ -6023,12 +6023,17 @@ static BOOL wined3d_adapter_init(struct wined3d_adapter *adapter, UINT ordinal, 
     adapter->ordinal = ordinal;
 
 /* Dynamically load all GL core functions */
+#ifdef _WIN32
+#   define USE_WIN32_OPENGL
+#endif
 #ifdef USE_WIN32_OPENGL
     {
         HMODULE mod_gl = GetModuleHandleA("opengl32.dll");
 #define USE_GL_FUNC(f) gl_info->gl_ops.gl.p_##f = (void *)GetProcAddress(mod_gl, #f);
+#define USE_WGL_FUNC(f) gl_info->gl_ops.wgl.p_##f = (void *)GetProcAddress(mod_gl, #f);
         ALL_WGL_FUNCS
 #undef USE_GL_FUNC
+#undef USE_WGL_FUNC
         gl_info->gl_ops.wgl.p_wglSwapBuffers = (void *)GetProcAddress(mod_gl, "wglSwapBuffers");
     }
 #else
