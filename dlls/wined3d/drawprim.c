@@ -423,6 +423,8 @@ void draw_primitive(struct wined3d_device *device, const struct wined3d_state *s
     const void *idx_data = NULL;
     BOOL emulation = FALSE;
 
+    return;
+
     if (!index_count)
         return;
 
