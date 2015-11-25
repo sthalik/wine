@@ -311,7 +311,7 @@ static void swapchain_blit(const struct wined3d_swapchain *swapchain,
     if (src_w == dst_rect->right - dst_rect->left && src_h == dst_rect->bottom - dst_rect->top)
         gl_filter = GL_NEAREST;
     else
-        gl_filter = GL_LINEAR;
+        gl_filter = GL_NEAREST;
 
     GetClientRect(swapchain->win_handle, &win_rect);
     win_h = win_rect.bottom - win_rect.top;

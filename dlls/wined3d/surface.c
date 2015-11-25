@@ -521,6 +521,7 @@ static void surface_blt_fbo(const struct wined3d_device *device,
     src_rect = *src_rect_in;
     dst_rect = *dst_rect_in;
 
+#if 0
     switch (filter)
     {
         case WINED3D_TEXF_LINEAR:
@@ -534,6 +535,8 @@ static void surface_blt_fbo(const struct wined3d_device *device,
             gl_filter = GL_NEAREST;
             break;
     }
+#endif
+    gl_filter = GL_NEAREST;
 
     /* Resolve the source surface first if needed. */
     if (src_location == WINED3D_LOCATION_RB_MULTISAMPLE

@@ -134,7 +134,15 @@ HRESULT CDECL wined3d_sampler_create(struct wined3d_device *device, const struct
     if (!(object = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*object))))
         return E_OUTOFMEMORY;
 
-    wined3d_sampler_init(object, device, desc, parent);
+    struct wined3d_sampler_desc desc2 = *desc;
+    if (desc2.min_filter > WINED3D_TEXF_POINT)
+        desc2.min_filter = WINED3D_TEXF_POINT;
+    if (desc2.mag_filter > WINED3D_TEXF_POINT)
+        desc2.mag_filter = WINED3D_TEXF_POINT;
+    if (desc2.mip_filter > WINED3D_TEXF_POINT)
+        desc2.mip_filter = WINED3D_TEXF_POINT;
+
+    wined3d_sampler_init(object, device, &desc2, parent);
 
     TRACE("Created sampler %p.\n", object);
     *sampler = object;
