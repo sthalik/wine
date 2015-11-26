@@ -139,8 +139,7 @@ HRESULT CDECL wined3d_sampler_create(struct wined3d_device *device, const struct
         desc2.min_filter = WINED3D_TEXF_POINT;
     if (desc2.mag_filter > WINED3D_TEXF_POINT)
         desc2.mag_filter = WINED3D_TEXF_POINT;
-    if (desc2.mip_filter > WINED3D_TEXF_POINT)
-        desc2.mip_filter = WINED3D_TEXF_POINT;
+    desc2.mip_filter = WINED3D_TEXF_NONE;
 
     wined3d_sampler_init(object, device, &desc2, parent);
 

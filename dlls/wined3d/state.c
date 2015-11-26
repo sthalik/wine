@@ -3552,20 +3552,20 @@ static void wined3d_sampler_desc_from_sampler_states(struct wined3d_sampler_desc
     if (sampler_states[WINED3D_SAMP_MAG_FILTER] > WINED3D_TEXF_ANISOTROPIC)
         FIXME("Unrecognized or unsupported WINED3D_SAMP_MAG_FILTER %#x.\n",
                 sampler_states[WINED3D_SAMP_MAG_FILTER]);
-    desc->mag_filter = min(max(sampler_states[WINED3D_SAMP_MAG_FILTER], WINED3D_TEXF_POINT), WINED3D_TEXF_LINEAR);
+    desc->mag_filter = min(max(sampler_states[WINED3D_SAMP_MAG_FILTER], WINED3D_TEXF_POINT), WINED3D_TEXF_POINT);
     if (sampler_states[WINED3D_SAMP_MIN_FILTER] > WINED3D_TEXF_ANISOTROPIC)
         FIXME("Unrecognized or unsupported WINED3D_SAMP_MIN_FILTER %#x.\n",
                 sampler_states[WINED3D_SAMP_MIN_FILTER]);
-    desc->min_filter = min(max(sampler_states[WINED3D_SAMP_MIN_FILTER], WINED3D_TEXF_POINT), WINED3D_TEXF_LINEAR);
+    desc->min_filter = min(max(sampler_states[WINED3D_SAMP_MIN_FILTER], WINED3D_TEXF_POINT), WINED3D_TEXF_POINT);
     if (sampler_states[WINED3D_SAMP_MIP_FILTER] > WINED3D_TEXF_ANISOTROPIC)
         FIXME("Unrecognized or unsupported WINED3D_SAMP_MIP_FILTER %#x.\n",
                 sampler_states[WINED3D_SAMP_MIP_FILTER]);
-    desc->mip_filter = min(max(sampler_states[WINED3D_SAMP_MIP_FILTER], WINED3D_TEXF_NONE), WINED3D_TEXF_LINEAR);
+    desc->mip_filter = WINED3D_TEXF_NONE;
     lod_bias.d = sampler_states[WINED3D_SAMP_MIPMAP_LOD_BIAS];
     desc->lod_bias = lod_bias.f;
     desc->min_lod = -1000.0f;
     desc->max_lod = 1000.0f;
-    desc->max_anisotropy = sampler_states[WINED3D_SAMP_MAX_ANISOTROPY];
+    desc->max_anisotropy = 1;
     if ((sampler_states[WINED3D_SAMP_MAG_FILTER] != WINED3D_TEXF_ANISOTROPIC
                 && sampler_states[WINED3D_SAMP_MIN_FILTER] != WINED3D_TEXF_ANISOTROPIC
                 && sampler_states[WINED3D_SAMP_MIP_FILTER] != WINED3D_TEXF_ANISOTROPIC)

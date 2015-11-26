@@ -596,7 +596,7 @@ void wined3d_texture_bind(struct wined3d_texture *texture,
     memset(gl_tex->sampler_desc.border_color, 0, sizeof(gl_tex->sampler_desc.border_color));
     gl_tex->sampler_desc.mag_filter = WINED3D_TEXF_POINT;
     gl_tex->sampler_desc.min_filter = WINED3D_TEXF_POINT; /* GL_NEAREST_MIPMAP_LINEAR */
-    gl_tex->sampler_desc.mip_filter = WINED3D_TEXF_POINT; /* GL_NEAREST_MIPMAP_LINEAR */
+    gl_tex->sampler_desc.mip_filter = WINED3D_TEXF_NONE; /* GL_NEAREST_MIPMAP_LINEAR */
     gl_tex->sampler_desc.lod_bias = 0.0f;
     gl_tex->sampler_desc.min_lod = -1000.0f;
     gl_tex->sampler_desc.max_lod = 1000.0f;
