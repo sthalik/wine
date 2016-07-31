@@ -1285,7 +1285,9 @@ void CDECL wined3d_device_set_multithreaded(struct wined3d_device *device)
     TRACE("device %p.\n", device);
 
     /* For now just store the flag (needed in case of ddraw). */
+#if 0
     device->create_parms.flags |= WINED3DCREATE_MULTITHREADED;
+#endif
 }
 
 UINT CDECL wined3d_device_get_available_texture_mem(const struct wined3d_device *device)
